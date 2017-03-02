@@ -1,6 +1,15 @@
 # Problem-01
 smartbox-test
 
+#Dependencias
+```bash
+npm install
+```
+
+#Ejecución
+```bash
+node app.js
+```
 # Detalles
 - Para poblar la base de datos, se debe ingresar a /misc/populate
 - El resto de las rutas son las mencionadas en las instrucciones:
