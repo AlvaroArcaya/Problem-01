@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-	Schema = mongoose.Schema
+	Schema = mongoose.Schema;
 
 var teamSchema = Schema({
 	_id: Schema.Types.ObjectId,
@@ -8,8 +8,8 @@ var teamSchema = Schema({
 	active: Boolean,
 	players: [{
 		type: Schema.Types.ObjectId,
-		ref: 'Player'
+		ref: 'Players'
 	}]
 });
 
-module.exports = mongoose.model('Team', teamSchema);
+module.exports = mongoose.model('Teams', teamSchema);

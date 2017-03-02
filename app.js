@@ -3,39 +3,26 @@ var config = require('./config'),
 	app = express(),
 	bodyParser = require("body-parser"),
 	methodOverride = require("method-override"),
-	parser = require('xml2js').parseString,
-	mongoose = require('mongoose'),
-	request = require('request'),
-	PlayerCtrl = require('./controllers/players'),
-	TeamCtrl = require('./controllers/teams');
+	mongoose = require('mongoose');
 
-app.use(bodyParser.urlencoded({
-	extended: false
-}));
+var TeamMdl = require('./models/team'),
+	PlayerMdl = require('./models/player'),
+	MiscCtrl = require('./controllers/misc'),
+	TeamCtrl = require('./controllers/team');
+
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(methodOverride());
 
-var router = express.Router();
+var misc = express.Router();
+misc.get('/populate', MiscCtrl.populate);
 
-router.get('populate', function(req, res) {
-	request(config.seed, function(err, res, body) {
-		parser(body, function(err, res) {
-			var teams = res.sport.team;
-
-			for (var i = 0; i < teams.length; i++) {
-				var team = {
-					_externalId: teams[i].id,
-					active: teams[i].active
-				}
-			}
-		});
-	});
-});
-
-var players = express.Router();
 var teams = express.Router();
+teams.get('/teams', TeamCtrl.findAll);
+teams.get('/teams/:idTeam/players', TeamCtrl.findByTeamId);
+teams.get('/teams/players/:position', TeamCtrl.findByPosition);
 
-app.use('/api', players);
+app.use('/misc', misc);
 app.use('/api', teams);
 
 mongoose.connect('mongodb://' + config.mongo.host + ':' + config.mongo.port + '/' + config.mongo.db, function(err, res) {
