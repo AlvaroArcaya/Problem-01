@@ -1,6 +1,5 @@
 var mongoose = require('mongoose'),
-	Schema = mongoose.Schema,
-	Teams = mongoose.model('Teams');
+	Schema = mongoose.Schema;
 
 var playerSchema = Schema({
 	_id: Schema.Types.ObjectId,
